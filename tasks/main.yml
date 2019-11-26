@@ -1,0 +1,15 @@
+---
+- name: 'Install packages'
+  package:
+    name: 'nginx'
+
+- name: 'Ensure base config file'
+  copy:
+    src: 'nginx.conf'
+    dest: '/etc/nginx/nginx.conf'
+
+- name: 'Ensure service'
+  service:
+    name: 'nginx'
+    state: 'started'
+    enabled: true
