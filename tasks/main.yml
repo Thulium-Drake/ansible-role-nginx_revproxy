@@ -13,3 +13,24 @@
     name: 'nginx'
     state: 'started'
     enabled: true
+
+- name: 'Install app config file'
+  template:
+    src: "{{ app.type }}"
+    dest: "/etc/nginx/sites-enabled/{{ app.name }}.conf"
+    mode: 0644
+  loop: "{{ nginx_apps }}"
+  loop_control:
+    loop_var: 'app'
+  notify: 'reload nginx'
+  when: app.state == 'present'
+
+- name: 'Remove app config file'
+  file:
+    path: "/etc/nginx/sites-enabled/{{ app.name }}.conf"
+    state: 'absent'
+  loop: "{{ nginx_apps }}"
+  loop_control:
+    loop_var: 'app'
+  notify: 'reload nginx'
+  when: app.state == 'absent'

@@ -1,0 +1,12 @@
+---
+# Defaults file for NginX reverse proxy role
+#
+# nginx_apps:
+#   - { name: 'app.example.com',
+#       cert: '/etc/ssl/acme/app.example.com/app.example.com_fullchain.cer',
+#       key: '/etc/ssl/acme/app.example.com/app.example.com.key',
+#       hsts: true,
+#       acme: false,
+#       state: 'present' }
+#   - { name: 'disabled.example.com',
+#       state: 'absent' }
