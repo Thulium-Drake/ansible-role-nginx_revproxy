@@ -16,7 +16,7 @@
 
 - name: 'Install app config file'
   template:
-    src: "{{ app.type }}"
+    src: "{{ app.type }}.conf.j2"
     dest: "/etc/nginx/sites-enabled/{{ app.name }}.conf"
     mode: 0644
   loop: "{{ nginx_apps }}"
