@@ -4,11 +4,11 @@ server {
    ssl_certificate {{ app.cert }};
    ssl_certificate_key {{ app.key }};
    ssl_dhparam /etc/nginx/ssl/dhparams.pem;
-   {% if app.hsts %} add_header Strict-Transport-Security "max-age=31536000; includeSubdomains"; {% endif %}
+   {% if app.hsts %}add_header Strict-Transport-Security "max-age=31536000; includeSubdomains"; {% endif %}
    access_log on;
    error_log on;
 
-   {% if app.acme %} include /etc/nginx/acme.conf; {% endif %}
+   {% if app.acme %}include /etc/nginx/acme.conf; {% endif %}
 
    location / {
       proxy_pass {{ app.upstream }};
