@@ -3,10 +3,13 @@
   package:
     name: 'nginx'
 
-- name: 'Ensure base config file'
+- name: 'Ensure base config files'
   copy:
-    src: 'nginx.conf'
-    dest: '/etc/nginx/nginx.conf'
+    src: "{{ file }}"
+    dest: "/etc/nginx/{{ file }}"
+  loop:
+    - 'nginx.conf'
+    - 'acme.conf'
 
 - name: 'Ensure service'
   service:
