@@ -13,6 +13,14 @@
   loop_control:
     loop_var: 'file'
 
+- name: 'Ensure DHparams'
+  openssl_dhparam:
+    path: '/etc/nginx/dh4096.pem'
+    size: 4096
+    mode: 0644
+    owner: 'root'
+    group: 'root'
+
 - name: 'Ensure service'
   service:
     name: 'nginx'
