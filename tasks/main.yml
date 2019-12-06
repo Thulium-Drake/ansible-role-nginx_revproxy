@@ -10,6 +10,8 @@
   loop:
     - 'nginx.conf'
     - 'acme.conf'
+  loop_control:
+    loop_var: 'file'
 
 - name: 'Ensure service'
   service:
