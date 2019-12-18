@@ -1,0 +1,28 @@
+# {{ ansible_managed }}
+# Suitable for applications with websockets without keepalives
+server {
+   listen 443 ssl;
+   server_name {{ app.name }};
+   ssl_certificate {{ app.cert }};
+   ssl_certificate_key {{ app.key }};
+   ssl_dhparam /etc/nginx/dh4096.pem;
+   {% if app.hsts %}add_header Strict-Transport-Security "max-age=31536000; includeSubdomains"; {% endif %}
+   access_log on;
+   error_log on;
+
+   {% if app.acme %}include /etc/nginx/acme.conf; {% endif %}
+
+   location / {
+      proxy_pass {{ app.upstream }};
+      proxy_http_version 1.1;
+      proxy_set_header Host $host;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_read_timeout 3600;
+   }
+}
+
+server {
+   listen      80;
+   server_name {{ app.name }};
+   rewrite     ^   https://$server_name$request_uri? permanent;
+}
