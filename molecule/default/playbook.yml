@@ -20,16 +20,11 @@
       lineinfile:
         path: '/etc/nginx/sites-enabled/default'
         line: "\tlisten 81 default_server;"
-        regexp: "\tlisten 80 default_server;"
+        regexp: "\tlisten 8[0-1] default_server;"
     - name: 'Ensure test content'
       copy:
         content: 'it_works'
         dest: '/var/www/html/index.html'
-    - name: 'Reload Nginx'
-      service:
-        name: 'nginx'
-        state: 'reloaded'
-      changed_when: false
   vars:
     nginx_apps:
       - { name: 'revproxy.lab',
