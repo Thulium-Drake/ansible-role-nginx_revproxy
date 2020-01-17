@@ -11,18 +11,23 @@
         line: '127.0.0.1 revproxy.lab'
         path: '/etc/hosts'
         unsafe_writes: true
-    - name: 'Ensure nginx default conf points to port 81'
+    - name: 'Set up reverse proxy'
+      import_role:
+        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+    - name: 'Ensure nginx default site listens on port 81'
       lineinfile:
         path: '/etc/nginx/sites-enabled/default'
         line: "\tlisten 81 default_server;"
         regexp: "\tlisten 80 default_server;"
-    - name: 'Set up reverse proxy'
-      import_role:
-        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
     - name: 'Ensure test content'
       copy:
         content: 'it_works'
         dest: '/var/www/html/index.html'
+    - name: 'Reload Nginx'
+      service:
+        name: 'nginx'
+        state: 'reloaded'
+      changed_when: false
   vars:
     nginx_apps:
       - { name: 'revproxy.lab',
