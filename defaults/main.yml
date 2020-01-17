@@ -12,3 +12,6 @@
 #       state: 'present' }
 #   - { name: 'disabled.example.com',
 #       state: 'absent' }
+
+# Size to use for the DH parameters
+nginx_dhparams_size: 4096

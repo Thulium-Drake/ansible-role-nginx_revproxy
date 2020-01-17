@@ -15,8 +15,8 @@
 
 - name: 'Ensure DHparams'
   openssl_dhparam:
-    path: '/etc/nginx/dh4096.pem'
-    size: 4096
+    path: '/etc/nginx/dhparams.pem'
+    size: "{{ nginx_dhparams_size }}"
     mode: 0644
     owner: 'root'
     group: 'root'
