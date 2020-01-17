@@ -14,8 +14,8 @@
     - name: 'Ensure nginx default conf points to port 81'
       lineinfile:
         path: '/etc/nginx/sites-enabled/default'
-        line: '	listen 81 default_server;'
-        regexp: '	listen 80 default_server;'
+        line: "\tlisten 81 default_server;"
+        regexp: "\tlisten 80 default_server;"
     - name: 'Set up reverse proxy'
       import_role:
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
