@@ -1,0 +1,35 @@
+---
+- name: 'Converge'
+  hosts: 'all'
+  tasks:
+    - name: 'Ensure test SSL certificate package'
+      package:
+        name: 'ssl-cert'
+        state: 'present'
+    - name: 'Ensure hosts entry'
+      lineinfile:
+        line: '127.0.0.1 revproxy.lab'
+        path: '/etc/hosts'
+        unsafe_writes: true
+    - name: 'Ensure nginx default conf points to port 81'
+      lineinfile:
+        path: '/etc/nginx/sites-enabled/default'
+        line: '	listen 81 default_server;'
+        regexp: '	listen 80 default_server;'
+    - name: 'Set up reverse proxy'
+      import_role:
+        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+    - name: 'Ensure test content'
+      copy:
+        content: 'it_works'
+        dest: '/var/www/html/index.html'
+  vars:
+    nginx_apps:
+      - { name: 'revproxy.lab',
+          upstream: 'http://localhost:81',
+          type: 'simple',
+          cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+          key: '/etc/ssl/private/ssl-cert-snakeoil.key',
+          hsts: false,
+          acme: false,
+          state: 'present' }
