@@ -1,0 +1,12 @@
+---
+- name: 'Verify'
+  hosts: 'all'
+  gather_facts: false
+  tasks:
+    - name: 'Check content'
+      uri:
+        url: 'https://revproxy.lab'
+        validate_certs: false
+        return_content: true
+      register: 'reply'
+      failed_when: "'it_works' not in reply.content"
