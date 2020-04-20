@@ -2,6 +2,10 @@
 - name: 'Converge'
   hosts: 'all'
   tasks:
+    - name: 'Update cache'
+      apt:
+        update_cache: true
+      changed_when: false
     - name: 'Ensure test SSL certificate package'
       package:
         name: 'ssl-cert'
