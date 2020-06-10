@@ -4,9 +4,10 @@
     name: 'nginx'
 
 - name: 'Ensure base config files'
-  copy:
+  template:
     src: "{{ file }}"
     dest: "/etc/nginx/{{ file }}"
+    mode: 0644
   loop:
     - 'nginx.conf'
     - 'acme.conf'
