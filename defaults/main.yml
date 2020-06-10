@@ -16,6 +16,8 @@
 # Enable or diable OSCP
 nginx_oscp: true
 
+nginx_oscp_certificate: '/etc/nginx/example-oscp.pem'
+
 # SSL ciphers to use (default is very strict!)
 nginx_ssl_ciphers: 'EECDH+AESGCM:EDH+AESGCM'
 

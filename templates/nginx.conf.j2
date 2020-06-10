@@ -35,7 +35,7 @@ http {
   # OCSP Stapling
   ssl_stapling on;
   ssl_stapling_verify on;
-  ssl_trusted_certificate /etc/nginx/letsencrypt-ocsp.pem;
+  ssl_trusted_certificate {{ nginx_oscp_certificate }};
 {% endif %}
 
   # Protocol and cipher settings
