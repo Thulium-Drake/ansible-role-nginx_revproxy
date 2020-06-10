@@ -22,7 +22,7 @@ nginx_oscp_certificate: '/etc/nginx/example-oscp.pem'
 nginx_ssl_ciphers: 'EECDH+AESGCM:EDH+AESGCM'
 
 # SSL protocols to enable
-nginx_ssl_protocols: 'TLSv1.2 TLSv1.3'
+nginx_ssl_protocols: 'TLSv1.2'
 
 # Size to use for the DH parameters
 nginx_dhparams_size: 4096
