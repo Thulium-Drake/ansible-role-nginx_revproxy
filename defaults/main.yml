@@ -7,15 +7,14 @@
 #     type: 'simple'
 #     cert: '/etc/ssl/acme/app.example.com/app.example.com_fullchain.cer'
 #     key: '/etc/ssl/acme/app.example.com/app.example.com.key'
+#     ocsp_cert: "{{ nginx_ocsp_certificate }}"
 #     hsts: true
 #     acme: false
 #     state: 'present'
 #   - name: 'disabled.example.com'
 #     state: 'absent'
 
-# Enable or diable OCSP
-nginx_ocsp: true
-
+# Default OCSP cert to use
 nginx_ocsp_certificate: '/etc/nginx/example-ocsp.pem'
 
 # SSL ciphers to use (default is very strict!)

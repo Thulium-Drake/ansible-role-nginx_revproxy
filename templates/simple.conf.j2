@@ -9,7 +9,12 @@ server {
    access_log on;
    error_log on;
 
-   {% if app.acme %}include /etc/nginx/acme.conf; {% endif %}
+{% if app.acme %}   include /etc/nginx/acme.conf; {% endif %}
+{% if app.ocsp_cert is defined %}
+   ssl_stapling on;
+   ssl_stapling_verify on;
+   ssl_trusted_certificate {{ app.ocsp_cert }};
+{% endif %}
 
    location / {
       proxy_pass {{ app.upstream }};

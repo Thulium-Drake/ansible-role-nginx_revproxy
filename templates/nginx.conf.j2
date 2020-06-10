@@ -31,13 +31,6 @@ http {
   # SSL Settings
   ##
 
-{% if nginx_ocsp %}
-  # OCSP Stapling
-  ssl_stapling on;
-  ssl_stapling_verify on;
-  ssl_trusted_certificate {{ nginx_ocsp_certificate }};
-{% endif %}
-
   # Protocol and cipher settings
   ssl_protocols {{ nginx_ssl_protocols }};
   ssl_ciphers {{ nginx_ssl_ciphers }};
