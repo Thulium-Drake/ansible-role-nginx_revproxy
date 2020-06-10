@@ -30,6 +30,7 @@
         content: 'it_works'
         dest: '/var/www/html/index.html'
   vars:
+    nginx_ocsp: false
     nginx_apps:
       - name: 'revproxy.lab'
         upstream: 'http://localhost:81'
