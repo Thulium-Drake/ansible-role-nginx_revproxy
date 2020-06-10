@@ -5,12 +5,12 @@
 
 - name: 'Ensure base config files'
   template:
-    src: "{{ file }}"
+    src: "{{ file }}.j2"
     dest: "/etc/nginx/{{ file }}"
     mode: 0644
   loop:
-    - 'nginx.conf.j2'
-    - 'acme.conf.j2'
+    - 'nginx.conf'
+    - 'acme.conf'
   loop_control:
     loop_var: 'file'
   notify: 'reload nginx'
