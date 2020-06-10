@@ -9,8 +9,8 @@
     dest: "/etc/nginx/{{ file }}"
     mode: 0644
   loop:
-    - 'nginx.conf'
-    - 'acme.conf'
+    - 'nginx.conf.j2'
+    - 'acme.conf.j2'
   loop_control:
     loop_var: 'file'
 
