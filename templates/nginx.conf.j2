@@ -35,7 +35,7 @@ http {
   # OCSP Stapling
   ssl_stapling on;
   ssl_stapling_verify on;
-  ssl_trusted_certificate {{ nginx_oscp_certificate }};
+  ssl_trusted_certificate {{ nginx_ocsp_certificate }};
 {% endif %}
 
   # Protocol and cipher settings

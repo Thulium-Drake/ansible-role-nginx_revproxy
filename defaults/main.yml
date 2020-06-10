@@ -13,10 +13,10 @@
 #   - name: 'disabled.example.com'
 #     state: 'absent'
 
-# Enable or diable OSCP
-nginx_oscp: true
+# Enable or diable OCSP
+nginx_ocsp: true
 
-nginx_oscp_certificate: '/etc/nginx/example-oscp.pem'
+nginx_ocsp_certificate: '/etc/nginx/example-ocsp.pem'
 
 # SSL ciphers to use (default is very strict!)
 nginx_ssl_ciphers: 'EECDH+AESGCM:EDH+AESGCM'
