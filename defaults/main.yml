@@ -2,16 +2,16 @@
 # Defaults file for NginX reverse proxy role
 #
 # nginx_apps:
-#   - { name: 'app.example.com',
-#       upstream: 'http://app.int.example.com:8000',
-#       type: 'simple',
-#       cert: '/etc/ssl/acme/app.example.com/app.example.com_fullchain.cer',
-#       key: '/etc/ssl/acme/app.example.com/app.example.com.key',
-#       hsts: true,
-#       acme: false,
-#       state: 'present' }
-#   - { name: 'disabled.example.com',
-#       state: 'absent' }
+#   - name: 'app.example.com'
+#     upstream: 'http://app.int.example.com:8000'
+#     type: 'simple'
+#     cert: '/etc/ssl/acme/app.example.com/app.example.com_fullchain.cer'
+#     key: '/etc/ssl/acme/app.example.com/app.example.com.key'
+#     hsts: true
+#     acme: false
+#     state: 'present'
+#   - name: 'disabled.example.com'
+#     state: 'absent'
 
 # Size to use for the DH parameters
 nginx_dhparams_size: 4096

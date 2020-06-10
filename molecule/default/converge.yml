@@ -31,11 +31,11 @@
         dest: '/var/www/html/index.html'
   vars:
     nginx_apps:
-      - { name: 'revproxy.lab',
-          upstream: 'http://localhost:81',
-          type: 'simple',
-          cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem',
-          key: '/etc/ssl/private/ssl-cert-snakeoil.key',
-          hsts: false,
-          acme: false,
-          state: 'present' }
+      - name: 'revproxy.lab'
+        upstream: 'http://localhost:81'
+        type: 'simple'
+        cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem'
+        key: '/etc/ssl/private/ssl-cert-snakeoil.key'
+        hsts: false
+        acme: false
+        state: 'present'
