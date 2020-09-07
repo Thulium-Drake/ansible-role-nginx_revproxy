@@ -25,7 +25,7 @@ local Converge(distro) = {
         name: "Lint code",
         image: "registry.element-networks.nl/tools/molecule",
         commands: [
-          "cat molecule/default/requirements.yml",
+          "ansible-galaxy collection install -r molecule/default/requirements.yml",
           "molecule lint",
           "molecule syntax"
         ],
