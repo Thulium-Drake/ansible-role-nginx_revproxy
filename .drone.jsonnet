@@ -3,6 +3,7 @@ local Converge(distro) = {
   image: "registry.element-networks.nl/tools/molecule",
   commands: [
     "molecule destroy",
+    "ansible-galaxy collection install -r molecule/default/requirements.yml",
     "molecule converge",
     "molecule idempotence",
     "molecule verify",
