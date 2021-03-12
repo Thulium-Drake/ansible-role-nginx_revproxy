@@ -14,6 +14,9 @@
 #   - name: 'disabled.example.com'
 #     state: 'absent'
 
+# Remove any 'default' site configuration for NginX
+nginx_revproxy_remove_default: true
+
 # Default OCSP cert to use
 nginx_ocsp_certificate: '/etc/nginx/example-ocsp.pem'
 
