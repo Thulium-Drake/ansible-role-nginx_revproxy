@@ -1,5 +1,5 @@
 # {{ ansible_managed }}
-user www-data;
+user {{ nginx_user }};
 worker_processes 4;
 pid /var/run/nginx.pid;
 include /etc/nginx/modules-enabled/*.conf;

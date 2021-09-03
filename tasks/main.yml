@@ -1,7 +1,19 @@
 ---
+- name: 'Include OS-specific variables'
+  include_vars: "{{ ansible_facts['os_family'] }}.yml"
+
 - name: 'Install packages'
   package:
     name: 'nginx'
+
+- name: 'Ensure config directories'
+  file:
+    path: "/etc/nginx/{{ dir }}"
+    state: 'directory'
+  loop:
+    - 'sites-enabled'
+  loop_control:
+    loop_var: 'dir'
 
 - name: 'Ensure base config files'
   template:
