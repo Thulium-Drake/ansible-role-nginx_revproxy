@@ -24,7 +24,10 @@ nginx_ocsp_certificate: '/etc/nginx/example-ocsp.pem'
 nginx_ssl_ciphers: 'EECDH+AESGCM:EDH+AESGCM'
 
 # SSL protocols to enable
-nginx_ssl_protocols: 'TLSv1.2'
+nginx_ssl_protocols: 'TLSv1.3'
+
+# Enforce server cipher order, this is recommended on TLSv1.2 and below
+nginx_force_server_order: false
 
 # Size to use for the DH parameters
 nginx_dhparams_size: 4096

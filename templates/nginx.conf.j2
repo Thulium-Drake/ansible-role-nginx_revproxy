@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 user {{ nginx_user }};
-worker_processes 4;
+worker_processes auto;
 pid /var/run/nginx.pid;
 include /etc/nginx/modules-enabled/*.conf;
 
@@ -40,7 +40,7 @@ http {
   # Protocol and cipher settings
   ssl_protocols {{ nginx_ssl_protocols }};
   ssl_ciphers {{ nginx_ssl_ciphers }};
-  ssl_prefer_server_ciphers on;
+  ssl_prefer_server_ciphers {% if nginx_force_server_order %}on{% else %}off{% endif %};
   ssl_session_cache shared:ssl_session_cache:10m;
 
 
