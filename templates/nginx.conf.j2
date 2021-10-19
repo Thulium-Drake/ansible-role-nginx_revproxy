@@ -39,10 +39,10 @@ http {
 
   # Protocol and cipher settings
   ssl_protocols {{ nginx_ssl_protocols }};
-  {% if nginx_ssl_ciphers != '' %}ssl_ciphers {{ nginx_ssl_ciphers }};{% endif %}
   ssl_prefer_server_ciphers {% if nginx_force_server_order %}on{% else %}off{% endif %};
   ssl_session_cache shared:ssl_session_cache:10m;
   ssl_session_tickets off;
+  {% if nginx_ssl_ciphers != '' %}ssl_ciphers {{ nginx_ssl_ciphers }};{% endif %}
 
   ##
   # Logging Settings
