@@ -27,14 +27,6 @@
     loop_var: 'file'
   notify: 'reload nginx'
 
-- name: 'Ensure DHparams'
-  community.crypto.openssl_dhparam:
-    path: '/etc/nginx/dhparams.pem'
-    size: "{{ nginx_dhparams_size }}"
-    mode: 0644
-    owner: 'root'
-    group: 'root'
-
 - name: 'Ensure service'
   service:
     name: 'nginx'

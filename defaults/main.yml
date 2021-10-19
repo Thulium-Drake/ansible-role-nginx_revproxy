@@ -20,14 +20,11 @@ nginx_revproxy_remove_default: true
 # Default OCSP cert to use
 nginx_ocsp_certificate: '/etc/nginx/example-ocsp.pem'
 
-# SSL ciphers to use (default is very strict!)
-nginx_ssl_ciphers: 'EECDH+AESGCM:EDH+AESGCM'
+# SSL ciphers to use (default is not defined, as TLSv1.3 only has secure ciphers available)
+nginx_ssl_ciphers: ''
 
 # SSL protocols to enable
 nginx_ssl_protocols: 'TLSv1.3'
 
 # Enforce server cipher order, this is recommended on TLSv1.2 and below
 nginx_force_server_order: false
-
-# Size to use for the DH parameters
-nginx_dhparams_size: 4096

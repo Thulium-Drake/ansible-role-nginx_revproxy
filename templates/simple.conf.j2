@@ -4,7 +4,6 @@ server {
    server_name {{ app.name }};
    ssl_certificate {{ app.cert }};
    ssl_certificate_key {{ app.key }};
-   ssl_dhparam /etc/nginx/dhparams.pem;
    {% if app.hsts %}add_header Strict-Transport-Security "max-age=31536000; includeSubdomains"; {% endif %}
    access_log /var/log/nginx/acces_{{ app.name }}.log;
    error_log /var/log/nginx/error_{{ app.name }}.log;
