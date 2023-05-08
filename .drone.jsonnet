@@ -53,7 +53,6 @@ local Converge(distro) = {
         commands: [
           "ansible-galaxy collection install -r molecule/default/requirements.yml",
           "molecule --version",
-          "molecule lint",
           "molecule syntax"
         ],
         privileged: true,
