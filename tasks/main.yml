@@ -1,61 +1,68 @@
 ---
 - name: 'Include OS-specific variables'
-  include_vars: "{{ ansible_facts['os_family'] }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_facts['os_family'] }}.yml"
 
 - name: 'Install packages'
-  package:
+  ansible.builtin.package:
     name: 'nginx'
 
 - name: 'Ensure config directories'
-  file:
+  ansible.builtin.file:
     path: "/etc/nginx/{{ dir }}"
     state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
   loop:
     - 'sites-enabled'
   loop_control:
     loop_var: 'dir'
 
 - name: 'Ensure base config files'
-  template:
+  ansible.builtin.template:
     src: "{{ file }}.j2"
     dest: "/etc/nginx/{{ file }}"
-    mode: 0644
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
   loop:
     - 'nginx.conf'
     - 'acme.conf'
   loop_control:
     loop_var: 'file'
-  notify: 'reload nginx'
+  notify: 'Reload nginx'
 
 - name: 'Ensure service'
-  service:
+  ansible.builtin.service:
     name: 'nginx'
     state: 'started'
     enabled: true
 
 - name: 'Remove default site config'
-  file:
+  ansible.builtin.file:
     path: '/etc/nginx/sites-enabled/default'
     state: 'absent'
   when: nginx_revproxy_remove_default
 
 - name: 'Install app config file'
-  template:
+  ansible.builtin.template:
     src: "{{ app.type }}.conf.j2"
     dest: "/etc/nginx/sites-enabled/{{ app.name }}.conf"
-    mode: 0644
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
   loop: "{{ nginx_apps | default([]) }}"
   loop_control:
     loop_var: 'app'
-  notify: 'reload nginx'
+  notify: 'Reload nginx'
   when: app.state == 'present'
 
 - name: 'Remove app config file'
-  file:
+  ansible.builtin.file:
     path: "/etc/nginx/sites-enabled/{{ app.name }}.conf"
     state: 'absent'
   loop: "{{ nginx_apps | default([]) }}"
   loop_control:
     loop_var: 'app'
-  notify: 'reload nginx'
+  notify: 'Reload nginx'
   when: app.state == 'absent'

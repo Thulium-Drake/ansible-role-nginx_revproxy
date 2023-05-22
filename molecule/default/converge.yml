@@ -3,39 +3,39 @@
   hosts: 'all'
   tasks:
     - name: 'Update cache'
-      apt:
+      ansible.builtin.apt:
         update_cache: true
       changed_when: false
     - name: 'Ensure test SSL certificate package'
-      package:
+      ansible.builtin.package:
         name: 'ssl-cert'
         state: 'present'
     - name: 'Ensure hosts entry'
-      lineinfile:
+      ansible.builtin.lineinfile:
         line: '127.0.0.1 revproxy.lab'
         path: '/etc/hosts'
         unsafe_writes: true
     - name: 'Set up reverse proxy'
-      import_role:
+      ansible.builtin.import_role:
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
       vars:
         nginx_dhparams_size: 1024
-    - name: 'Ensure nginx default site listens on port 81'
-      lineinfile:
+    - name: 'Ensure nginx default site listens on port 81'  # noqa no-tabs
+      ansible.builtin.lineinfile:
         path: '/etc/nginx/sites-available/default'
         line: "\tlisten 81 default_server;"
         regexp: "\tlisten 8[0-1] default_server;"
     - name: 'Rename default to default.conf'
-      file:
+      ansible.builtin.file:
         src: '/etc/nginx/sites-available/default'
         dest: '/etc/nginx/sites-enabled/default.conf'
         state: 'link'
-      notify: 'restart nginx'
+      notify: 'Restart nginx'
     - name: 'Ensure test content'
-      copy:
+      ansible.builtin.copy:
         content: 'it_works'
         dest: '/var/www/html/index.html'
-        mode: 0644
+        mode: '0644'
   vars:
     nginx_ocsp: false
     nginx_apps:
@@ -48,7 +48,7 @@
         acme: false
         state: 'present'
   handlers:
-    - name: 'restart nginx'
-      service:
+    - name: 'Restart nginx'
+      ansible.builtin.service:
         name: 'nginx'
         state: 'restarted'

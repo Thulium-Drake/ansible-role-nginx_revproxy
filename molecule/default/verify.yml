@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
     - name: 'Check content'
-      uri:
+      ansible.builtin.uri:
         url: 'https://revproxy.lab'
         validate_certs: false
         return_content: true
