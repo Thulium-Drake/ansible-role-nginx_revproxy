@@ -2,6 +2,8 @@
 # Suitable for applications with websockets without keepalives
 server {
    listen 443 ssl;
+   {% if app.ipv6 | default(true) %}listen [::]:443 ssl http2; {% endif %}
+
    server_name {{ app.name }};
    ssl_certificate {{ app.cert }};
    ssl_certificate_key {{ app.key }};
@@ -32,6 +34,8 @@ server {
 
 server {
    listen      80;
+   {% if app.ipv6 | default(true) %}listen [::]:80; {% endif %}
+
    server_name {{ app.name }};
    rewrite     ^   https://$server_name$request_uri? permanent;
 }
