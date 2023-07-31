@@ -6,7 +6,7 @@ server {
    server_name {{ app.name }};
    ssl_certificate {{ app.cert }};
    ssl_certificate_key {{ app.key }};
-   {% if app.hsts %}add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";{% endif %}
+   {% if app.hsts %}add_header Strict-Transport-Security "max-age=63072000; includeSubdomains";{% endif %}
 
    access_log /var/log/nginx/{{ app.name }}-access;
    error_log /var/log/nginx/{{ app.name }}-error;
