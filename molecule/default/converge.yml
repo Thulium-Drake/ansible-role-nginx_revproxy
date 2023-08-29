@@ -18,8 +18,6 @@
     - name: 'Set up reverse proxy'
       ansible.builtin.import_role:
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
-      vars:
-        nginx_dhparams_size: 1024
     - name: 'Ensure nginx default site listens on port 81'  # noqa no-tabs
       ansible.builtin.lineinfile:
         path: '/etc/nginx/sites-available/default'
