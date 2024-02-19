@@ -2,14 +2,11 @@
 - name: 'Converge'
   hosts: 'all'
   tasks:
-    - name: 'Update cache'
-      ansible.builtin.apt:
-        update_cache: true
-      changed_when: false
     - name: 'Ensure test SSL certificate package'
       ansible.builtin.package:
         name: 'ssl-cert'
         state: 'present'
+        update_cache: true
     - name: 'Ensure hosts entry'
       ansible.builtin.lineinfile:
         line: '127.0.0.1 revproxy.lab'
