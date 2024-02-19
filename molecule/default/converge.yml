@@ -2,11 +2,11 @@
 - name: 'Converge'
   hosts: 'all'
   tasks:
-    - name: 'Ensure test SSL certificate package'
-      ansible.builtin.package:
-        name: 'ssl-cert'
-        state: 'present'
-        update_cache: true
+    - name: 'Generate selfsigned SSL cert'
+      community.crypto.x509_certificate:
+        path: '/etc/ssl/ssl-cert-snakeoil.pem'
+        privatekey_path: '/etc/ssl/ssl-cert-snakeoil.key'
+        provider: 'selfsigned'
     - name: 'Ensure hosts entry'
       ansible.builtin.lineinfile:
         line: '127.0.0.1 revproxy.lab'
@@ -37,8 +37,8 @@
       - name: 'revproxy.lab'
         upstream: 'http://localhost:81'
         type: 'simple'
-        cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem'
-        key: '/etc/ssl/private/ssl-cert-snakeoil.key'
+        cert: '/etc/ssl/ssl-cert-snakeoil.pem'
+        key: '/etc/ssl/ssl-cert-snakeoil.key'
         hsts: false
         acme: false
         state: 'present'
