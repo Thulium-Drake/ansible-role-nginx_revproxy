@@ -2,11 +2,6 @@
 - name: 'Converge'
   hosts: 'all'
   tasks:
-    - name: 'Generate selfsigned SSL cert'
-      community.crypto.x509_certificate:
-        path: '/etc/ssl/ssl-cert-snakeoil.pem'
-        privatekey_path: '/etc/ssl/ssl-cert-snakeoil.key'
-        provider: 'selfsigned'
     - name: 'Ensure hosts entry'
       ansible.builtin.lineinfile:
         line: '127.0.0.1 revproxy.lab'
@@ -15,17 +10,29 @@
     - name: 'Set up reverse proxy'
       ansible.builtin.import_role:
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
-    - name: 'Ensure nginx default site listens on port 81'  # noqa no-tabs
-      ansible.builtin.lineinfile:
-        path: '/etc/nginx/sites-available/default'
-        line: "\tlisten 81 default_server;"
-        regexp: "\tlisten 8[0-1] default_server;"
-    - name: 'Rename default to default.conf'
-      ansible.builtin.file:
-        src: '/etc/nginx/sites-available/default'
+    - name: 'Ensure test page config'
+      ansible.builtin.copy:
+        content: |
+          server {
+            listen localhost:81;
+            root /var/www/html;
+            index index.html index.htm;
+            location / {
+                try_files $uri $uri/ =404;
+            }
+          }
         dest: '/etc/nginx/sites-enabled/default.conf'
-        state: 'link'
+        owner: 'root'
+        group: 'root'
+        mode: '0644'
       notify: 'Restart nginx'
+    - name: 'Ensure test content dir'
+      ansible.builtin.file:
+        path: '/var/www/html'
+        owner: 'root'
+        group: 'root'
+        mode: '0755'
+        state: 'directory'
     - name: 'Ensure test content'
       ansible.builtin.copy:
         content: 'it_works'
@@ -33,12 +40,14 @@
         mode: '0644'
   vars:
     nginx_ocsp: false
+    nginx_stream_enabled: true
+    nginx_stream_ssh_target: 'localhost:22'
     nginx_apps:
       - name: 'revproxy.lab'
         upstream: 'http://localhost:81'
         type: 'simple'
-        cert: '/etc/ssl/ssl-cert-snakeoil.pem'
-        key: '/etc/ssl/ssl-cert-snakeoil.key'
+        cert: '/etc/ssl/certs/server.crt'
+        key: '/etc/ssl/certs/server.key'
         hsts: false
         acme: false
         state: 'present'

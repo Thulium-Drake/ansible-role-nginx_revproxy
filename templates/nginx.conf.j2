@@ -2,7 +2,7 @@
 user {{ nginx_user }};
 worker_processes auto;
 pid /var/run/nginx.pid;
-include /etc/nginx/modules-enabled/*.conf;
+include {{ nginx_module_path }}/*.conf;
 
 events {
   worker_connections 768;

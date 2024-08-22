@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+stream {
+    upstream ssh {
+        server {{ nginx_stream_ssh_target }};
+    }
+
+    upstream https_default_backend {
+        server localhost:443;
+    }
+
+    map $ssl_preread_protocol $upstream {
+        "" ssh;
+        default $name;
+        "TLSv1.3" $name;
+        "TLSv1.2" $name;
+        "TLSv1.1" $name;
+        "TLSv1" $name;
+    }
+
+    map $ssl_preread_server_name $name {
+        default https_default_backend;
+    }
+
+    server {
+        listen {{ ansible_facts['default_ipv4']['address'] }}:443;
+        {% if (ansible_facts['default_ipv6']['address'] is defined) %}listen {{ ansible_facts['default_ipv6']['address'] }}:443;{% endif %}
+
+        ssl_preread on;
+        proxy_pass $upstream;
+    }
+}

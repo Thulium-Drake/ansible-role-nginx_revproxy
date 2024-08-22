@@ -1,2 +1,6 @@
 ---
 nginx_user: 'nginx'
+nginx_module_path: '/usr/share/nginx/modules'
+nginx_packages:
+  - 'nginx'
+  - 'nginx-mod-stream'

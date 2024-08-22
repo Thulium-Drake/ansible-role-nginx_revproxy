@@ -28,3 +28,9 @@ nginx_ssl_protocols: 'TLSv1.3'
 
 # Enforce server cipher order, this is recommended on TLSv1.2 and below
 nginx_force_server_order: false
+
+# Enable NGINX SSL Stream pre-reading
+# This can be utilized to send SSH traffic to a different upstream then
+# HTTP traffic (which will be handled by the nginx_apps above)
+nginx_stream_enabled: false
+nginx_stream_ssh_target: 'ssh.example.nl:22'

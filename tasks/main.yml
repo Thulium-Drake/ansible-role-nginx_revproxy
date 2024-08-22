@@ -4,7 +4,7 @@
 
 - name: 'Install packages'
   ansible.builtin.package:
-    name: 'nginx'
+    name: "{{ nginx_packages }}"
 
 - name: 'Ensure config directories'
   ansible.builtin.file:
@@ -32,17 +32,21 @@
     loop_var: 'file'
   notify: 'Reload nginx'
 
-- name: 'Ensure service'
-  ansible.builtin.service:
-    name: 'nginx'
-    state: 'started'
-    enabled: true
-
 - name: 'Remove default site config'
   ansible.builtin.file:
     path: '/etc/nginx/sites-enabled/default'
     state: 'absent'
   when: nginx_revproxy_remove_default
+
+- name: 'Install SSL stream preread config'
+  ansible.builtin.template:
+    src: "stream_ssl_preread.conf.j2"
+    dest: "/etc/nginx/conf.d/stream_ssl_preread.conf"
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: 'Reload nginx'
+  when: nginx_stream_enabled
 
 - name: 'Install app config file'
   ansible.builtin.template:
@@ -66,3 +70,9 @@
     loop_var: 'app'
   notify: 'Reload nginx'
   when: app.state == 'absent'
+
+- name: 'Ensure service'
+  ansible.builtin.service:
+    name: 'nginx'
+    state: 'started'
+    enabled: true

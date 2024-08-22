@@ -1,2 +1,6 @@
 ---
 nginx_user: 'www-data'
+nginx_module_path: '/etc/nginx/modules-enabled'
+nginx_packages:
+  - 'nginx'
+  - 'libnginx-mod-stream'
