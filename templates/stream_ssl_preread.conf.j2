@@ -23,7 +23,7 @@ stream {
 
     server {
         listen {{ ansible_facts['default_ipv4']['address'] }}:443;
-        {% if (ansible_facts['default_ipv6']['address'] is defined) %}listen {{ ansible_facts['default_ipv6']['address'] }}:443;{% endif %}
+        {% if (ansible_facts['default_ipv6']['address'] is defined) %}listen [{{ ansible_facts['default_ipv6']['address'] }}]:443;{% endif %}
 
         ssl_preread on;
         proxy_pass $upstream;
