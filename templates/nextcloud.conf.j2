@@ -1,7 +1,18 @@
 # {{ ansible_managed }}
+# Check if these headers are already set upstream, if not, set them
 map $upstream_http_strict_transport_security $hdr_strict_transport_security {
  '' "max-age=63072000; includeSubdomains";
 }
+map $upstream_http_x_content_type_options $hdr_x_content_type_options {
+    '' "nosniff";
+}
+map $upstream_http_x_frame_options $hdr_x_frame_options {
+    '' "SAMEORIGIN";
+}
+map $upstream_http_referrer_policy $hdr_referrer_policy {
+    '' "no-referrer";
+}
+
 server {
    listen {{ (nginx_stream_enabled) | ternary('127.0.0.1:', '') }}443 ssl http2;
    {% if app.ipv6 | default(true) %}listen {{ (nginx_stream_enabled) | ternary('[::1]', '[::]') }}:443 ssl http2; {% endif %}
@@ -40,10 +51,9 @@ server {
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
    }
-
-   add_header X-Content-Type-Options nosniff;
-   add_header X-Frame-Options SAMEORIGIN;
-   add_header Referrer-Policy no-referrer;
+   add_header X-Content-Type-Options $hdr_x_content_type_options;
+   add_header X-Frame-Options $hdr_x_frame_options;
+   add_header Referrer-Policy $hdr_referrer_policy;
 }
 
 server {
