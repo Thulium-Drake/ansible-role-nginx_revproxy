@@ -38,15 +38,22 @@
     state: 'absent'
   when: nginx_revproxy_remove_default
 
-- name: 'Install SSL stream preread config'
+- name: 'Ensure SSL stream preread config'
   ansible.builtin.template:
     src: "stream_ssl_preread.conf.j2"
     dest: "/etc/nginx/conf.d/stream_ssl_preread.conf"
     owner: 'root'
     group: 'root'
     mode: '0644'
-  notify: 'Reload nginx'
+  notify: 'Restart nginx'
   when: nginx_stream_enabled
+
+- name: 'Ensure SSL stream preread config absent'
+  ansible.builtin.file:
+    path: '/etc/nginx/conf.d/stream_ssl_preread.conf'
+    state: 'absent'
+  notify: 'Restart nginx'
+  when: not nginx_stream_enabled
 
 - name: 'Install app config file'
   ansible.builtin.template:
